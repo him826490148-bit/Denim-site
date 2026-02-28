@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIM'S DENIM | 15-Year Premium Chinese Denim Source Factory</title>
+    
+    <!-- 字体加载 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A', // 深靛蓝
+                        surface: '#F8F5F0', // 暖白底色
+                        accent: '#C9A66B',  // 哑光金
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] { display: none !important; }
+        html { scroll-behavior: smooth; }
+        body { background-color: #F8F5F0; color: #0F172A; }
+        .smooth-transition { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* 模拟高级感渐变 */
+        .gold-gradient { background: linear-gradient(135deg, #C9A66B 0%, #E5C78F 100%); }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-accent selection:text-white" 
+      x-data="{ 
+        sidePanelOpen: false, 
+        selectedProduct: null,
+        activeCategory: 'Jeans',
+        /* --- 核心数据配置区：您可以在这里轻松更换图片和分类 --- */
+        collections: [
+            {
+                category: 'Jeans',
+                title: 'Premium Denim Jeans',
+                description: '15年版型沉淀，完美适配全球尺码。',
+                items: [
+                    { id: 101, title: 'Classic Straight Fit', price: '$8.8', mainImage: 'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=600', images: ['https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=600', 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600', 'https://images.unsplash.com/photo-1604176354204-9268737828e4?q=80&w=600', 'https://images.unsplash.com/photo-1516575307900-5823e3f03a9d?q=80&w=600', 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?q=80&w=600'] },
+                    { id: 102, title: 'High-Rise Skinny', price: '$9.2', mainImage: 'https://images.unsplash.com/photo-1604176354204-9268737828e4?q=80&w=600', images: ['https://images.unsplash.com/photo-1604176354204-9268737828e4?q=80&w=600', 'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=600'] },
+                    { id: 103, title: 'Vintage Mom Jeans', price: '$9.5', mainImage: 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?q=80&w=600', images: ['https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?q=80&w=600'] },
+                    { id: 104, title: 'Relaxed Tapered', price: '$8.5', mainImage: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600', images: ['https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600'] },
+                    { id: 105, title: 'Eco-Wash Slim', price: '$10.0', mainImage: 'https://images.unsplash.com/photo-1516575307900-5823e3f03a9d?q=80&w=600', images: ['https://images.unsplash.com/photo-1516575307900-5823e3f03a9d?q=80&w=600'] }
+                ]
+            },
+            {
+                category: 'Jackets',
+                title: 'Denim Outerwear',
+                description: '重磅面料，精工五金，打造品牌核心单品。',
+                items: [
+                    { id: 201, title: 'Sherpa Lined Trucker', price: '$15.5', mainImage: 'https://images.unsplash.com/photo-1576905355166-3005ca4611bd?q=80&w=600', images: ['https://images.unsplash.com/photo-1576905355166-3005ca4611bd?q=80&w=600', 'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?q=80&w=600', 'https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?q=80&w=600'] },
+                    { id: 202, title: 'Oversized Denim Shirt', price: '$12.0', mainImage: 'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?q=80&w=600', images: ['https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?q=80&w=600'] },
+                    { id: 203, title: 'Raw Denim Jacket', price: '$18.0', mainImage: 'https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?q=80&w=600', images: ['https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?q=80&w=600'] }
+                ]
+            },
+            {
+                category: 'Skirts',
+                title: 'Artisan Skirts',
+                description: '时尚与耐穿的结合，多元水洗工艺。',
+                items: [
+                    { id: 301, title: 'Midi Button Front', price: '$7.8', mainImage: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=600', images: ['https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=600'] },
+                    { id: 302, title: 'Distressed Mini', price: '$6.5', mainImage: 'https://images.unsplash.com/photo-1548624149-f9b1859aa7d0?q=80&w=600', images: ['https://images.unsplash.com/photo-1548624149-f9b1859aa7d0?q=80&w=600'] }
+                ]
+            },
+            {
+                category: 'Heritage',
+                title: 'Selvedge Collection',
+                description: '古董织机织造，赤耳丹宁的高级质感。',
+                items: [
+                    { id: 401, title: '14oz Red Line Selvedge', price: '$22.0', mainImage: 'https://images.unsplash.com/photo-1516575307900-5823e3f03a9d?q=80&w=600', images: ['https://images.unsplash.com/photo-1516575307900-5823e3f03a9d?q=80&w=600'] }
+                ]
+            }
+        ]
+      }">
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center mix-blend-difference text-white">
+        <div class="text-2xl font-serif tracking-widest uppercase font-bold">HIM'S DENIM</div>
+        <div class="hidden md:flex space-x-12 text-xs tracking-[0.3em] uppercase font-light">
+            <a href="#story" class="hover:text-accent smooth-transition">Our Story</a>
+            <a href="#collections" class="hover:text-accent smooth-transition">Collections</a>
+            <a href="#production" class="hover:text-accent smooth-transition">Production</a>
+            <a href="#contact" class="hover:text-accent smooth-transition">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO 主视觉 -->
+    <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?q=80&w=2000" 
+             alt="HIM'S DENIM Factory" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-primary/40 backdrop-blur-[1px]"></div>
+        
+        <div class="relative z-10 text-center text-white px-4 max-w-5xl">
+            <span class="text-accent text-sm tracking-[0.6em] uppercase mb-4 block font-semibold">15 Years Mastery · Xintang Source Factory</span>
+            <h1 class="font-serif text-5xl md:text-9xl mb-8 tracking-tighter">HIM'S DENIM</h1>
+            <p class="text-lg md:text-xl font-light tracking-[0.2em] uppercase mb-12 opacity-90 leading-relaxed">
+                Premium Jeans OEM | ODM Factory <br>
+                <span class="text-accent">Direct Source</span> | Low MOQ 100pcs | Global Logistics
+            </p>
+            <div class="flex flex-col md:flex-row gap-6 justify-center">
+                <a href="https://wa.me/8613503067557" class="bg-accent text-primary px-12 py-5 text-xs uppercase tracking-[0.3em] font-bold hover:bg-white smooth-transition">
+                    Chat on WhatsApp
+                </a>
+                <a href="#collections" class="border border-white/40 hover:bg-white/10 px-12 py-5 text-xs uppercase tracking-[0.3em] font-bold smooth-transition">
+                    Explore Categories
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY & PAIN POINTS 故事与痛点 -->
+    <section id="story" class="py-32 px-8 bg-white">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=1200" alt="Factory Mastery" class="w-full h-[650px] object-cover shadow-2xl">
+                <div class="absolute -bottom-8 -right-8 gold-gradient p-12 text-primary hidden md:block">
+                    <p class="text-6xl font-serif mb-2">15+</p>
+                    <p class="text-[10px] uppercase tracking-[0.3em] font-bold">Years of Denim Art</p>
+                </div>
+            </div>
+            <div class="space-y-10">
+                <h2 class="font-serif text-4xl md:text-5xl text-primary italic leading-tight">Solving Your Manufacturing Challenges</h2>
+                <p class="text-slate-500 leading-loose font-light">
+                    Located in Xintang, Guangzhou—the world's denim hub—<strong class="text-primary">HIM'S DENIM</strong> understands the frustrations of modern brands: high MOQs, unstable quality, and slow sampling. We leverage our 15-year factory heritage to provide direct, transparent, and high-efficiency solutions.
+                </p>
+                
+                <div class="space-y-8">
+                    <div class="flex gap-6 items-start">
+                        <div class="w-12 h-12 flex-shrink-0 bg-surface flex items-center justify-center text-accent font-bold italic">01</div>
+                        <div>
+                            <h4 class="text-primary font-bold text-sm uppercase tracking-widest mb-2">Rapid Prototyping</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">7-day professional sampling. We refine your vision until the wash and fit are perfect.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="w-12 h-12 flex-shrink-0 bg-surface flex items-center justify-center text-accent font-bold italic">02</div>
+                        <div>
+                            <h4 class="text-primary font-bold text-sm uppercase tracking-widest mb-2">Source Factory Pricing</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">No middleman. Direct-from-factory pricing with a flexible 100pcs MOQ per style.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 items-start">
+                        <div class="w-12 h-12 flex-shrink-0 bg-surface flex items-center justify-center text-accent font-bold italic">03</div>
+                        <div>
+                            <h4 class="text-primary font-bold text-sm uppercase tracking-widest mb-2">Stable Quality Control</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">AQC standards with 100% manual final inspection before global shipment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLLECTIONS 分类产品展示区 -->
+    <section id="collections" class="py-32 bg-surface">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="font-serif text-5xl mb-6 italic">Our Collections</h2>
+                <p class="text-[10px] uppercase tracking-[0.5em] text-slate-400">Direct Factory Categories</p>
+            </div>
+
+            <!-- 分类切换导航 -->
+            <div class="flex flex-wrap justify-center gap-8 mb-16 border-b border-slate-200 pb-8">
+                <template x-for="cat in collections" :key="cat.category">
+                    <button @click="activeCategory = cat.category" 
+                            class="text-xs uppercase tracking-[0.4em] pb-2 smooth-transition relative group"
+                            :class="activeCategory === cat.category ? 'text-primary font-bold' : 'text-slate-400 hover:text-primary'">
+                        <span x-text="cat.category"></span>
+                        <div class="absolute bottom-0 left-0 w-full h-[2px] bg-accent smooth-transition scale-x-0 group-hover:scale-x-100"
+                             :class="activeCategory === cat.category ? 'scale-x-100' : ''"></div>
+                    </button>
+                </template>
+            </div>
+
+            <!-- 产品网格 -->
+            <template x-for="cat in collections" :key="cat.category">
+                <div x-show="activeCategory === cat.category" x-transition:enter="transition ease-out duration-500 opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                        <template x-for="product in cat.items" :key="product.id">
+                            <div @click="selectedProduct = product; sidePanelOpen = true" 
+                                 class="group cursor-pointer bg-white p-3 border border-slate-100 hover:shadow-2xl smooth-transition">
+                                <div class="aspect-[3/4] overflow-hidden mb-4">
+                                    <img :src="product.mainImage" :alt="product.title" class="w-full h-full object-cover group-hover:scale-110 smooth-transition duration-1000">
+                                </div>
+                                <h3 class="text-[11px] uppercase tracking-widest font-bold text-primary mb-1" x-text="product.title"></h3>
+                                <p class="text-[10px] text-accent font-semibold" x-text="'FROM ' + product.price"></p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </section>
+
+    <!-- PRODUCTION 生产过程图片展示 -->
+    <section id="production" class="py-32 bg-primary text-surface">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="mb-24 text-center">
+                <h2 class="font-serif text-4xl md:text-5xl mb-6 italic">Artisanal Production Process</h2>
+                <div class="w-16 h-[1px] bg-accent mx-auto mb-6"></div>
+                <p class="text-surface/50 text-xs uppercase tracking-[0.3em]">Vertical Integration · Xintang Hub</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+                <!-- Step 1 -->
+                <div class="group">
+                    <div class="aspect-video overflow-hidden mb-8 border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1524292332623-3a5a72fcbb8d?q=80&w=800" alt="Fabric Inspection" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 smooth-transition">
+                    </div>
+                    <h4 class="text-accent text-xs uppercase tracking-[0.4em] font-bold mb-4">01. Fabric Inspection</h4>
+                    <p class="text-sm font-light leading-relaxed text-surface/40">100% scan for color shading and weaving defects before any cutting begins.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="group">
+                    <div class="aspect-video overflow-hidden mb-8 border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1558770147-d2a384e1ad81?q=80&w=800" alt="Precision Cutting" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 smooth-transition">
+                    </div>
+                    <h4 class="text-accent text-xs uppercase tracking-[0.4em] font-bold mb-4">02. Precision Cutting</h4>
+                    <p class="text-sm font-light leading-relaxed text-surface/40">CAD-optimized automated cutting systems to ensure perfect pattern consistency.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="group">
+                    <div class="aspect-video overflow-hidden mb-8 border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=800" alt="Master Sewing" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 smooth-transition">
+                    </div>
+                    <h4 class="text-accent text-xs uppercase tracking-[0.4em] font-bold mb-4">03. Skilled Sewing</h4>
+                    <p class="text-sm font-light leading-relaxed text-surface/40">120+ master sewers utilizing JUKI heavy-duty machinery for heritage-quality seams.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="group">
+                    <div class="aspect-video overflow-hidden mb-8 border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1605070865007-4351d159c674?q=80&w=800" alt="Washing" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 smooth-transition">
+                    </div>
+                    <h4 class="text-accent text-xs uppercase tracking-[0.4em] font-bold mb-4">04. Eco-Artisan Washing</h4>
+                    <p class="text-sm font-light leading-relaxed text-surface/40">Specialized laundry effects: Stone wash, enzyme, laser aging, and ozone treatment.</p>
+                </div>
+                <!-- Step 5 -->
+                <div class="group">
+                    <div class="aspect-video overflow-hidden mb-8 border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=800" alt="QC" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 smooth-transition">
+                    </div>
+                    <h4 class="text-accent text-xs uppercase tracking-[0.4em] font-bold mb-4">05. 4-Stage Quality Control</h4>
+                    <p class="text-sm font-light leading-relaxed text-surface/40">Strict AQC check for hardware strength, seam durability, and measurement tolerance.</p>
+                </div>
+                <!-- Step 6 -->
+                <div class="group">
+                    <div class="aspect-video overflow-hidden mb-8 border border-white/10">
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800" alt="Packaging" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 smooth-transition">
+                    </div>
+                    <h4 class="text-accent text-xs uppercase tracking-[0.4em] font-bold mb-4">06. Professional Packing</h4>
+                    <p class="text-sm font-light leading-relaxed text-surface/40">Retail-ready branding, tagging, and professional carton packaging for global DDP.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS 客户评价 -->
+    <section class="py-32 bg-white">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="font-serif text-3xl mb-16 italic text-primary">Global Brand Trust</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="p-10 border border-slate-100 bg-surface/30 relative">
+                    <div class="flex justify-center text-accent mb-6 text-xl">★★★★★</div>
+                    <p class="text-sm italic text-slate-500 mb-8 font-light leading-loose">"HIM'S DENIM revolutionized our supply chain. Their sampling speed is incredible, and the Xintang factory price allows us higher margins without sacrificing the premium feel."</p>
+                    <p class="text-[10px] uppercase tracking-widest font-bold text-primary">— Fashion Retailer, Italy</p>
+                </div>
+                <div class="p-10 border border-slate-100 bg-surface/30 relative">
+                    <div class="flex justify-center text-accent mb-6 text-xl">★★★★★</div>
+                    <p class="text-sm italic text-slate-500 mb-8 font-light leading-loose">"Consistency is why we stay. 5 seasons later, and the quality remains identical to the first shipment. Their WhatsApp communication makes us feel like we're in the factory."</p>
+                    <p class="text-[10px] uppercase tracking-widest font-bold text-primary">— Designer Brand, USA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER 联系方式 -->
+    <footer id="contact" class="bg-primary pt-24 pb-12 px-8 text-surface">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-24 border-b border-white/5 pb-20">
+            <div class="space-y-8">
+                <h2 class="text-4xl font-serif tracking-widest uppercase font-bold">HIM'S DENIM</h2>
+                <p class="text-surface/40 text-[10px] tracking-[0.3em] leading-loose uppercase">
+                    Mastering Denim Since 2009. <br>
+                    Direct Source Factory in Xintang.
+                </p>
+                <!-- 社媒图标 -->
+                <div class="flex gap-6 items-center">
+                    <a href="#" class="hover:text-accent smooth-transition">FB</a>
+                    <a href="#" class="hover:text-accent smooth-transition">INS</a>
+                    <a href="#" class="hover:text-accent smooth-transition">TK</a>
+                    <a href="https://wa.me/8613503067557" class="hover:text-accent smooth-transition font-bold underline">WhatsApp</a>
+                </div>
+            </div>
+            
+            <div class="space-y-12 uppercase tracking-[0.2em] text-[10px] font-semibold">
+                <div class="space-y-4">
+                    <p class="text-accent">Direct Contact</p>
+                    <p class="text-surface/60 leading-relaxed font-light">
+                        WA: +86 13503067557<br>
+                        EM: him826490148@gmail.com
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-accent">Factory Hub</p>
+                    <p class="text-surface/60 leading-relaxed font-light">
+                        Changfeng International, Xintang,<br>
+                        Zengcheng, Guangzhou, China
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white/5 p-10 border border-white/10">
+                <h4 class="text-xs uppercase tracking-[0.3em] font-bold mb-8 italic">Request a Sample</h4>
+                <div class="space-y-6">
+                    <input type="text" placeholder="COMPANY NAME" class="w-full bg-transparent border-b border-white/20 py-3 text-xs outline-none focus:border-accent">
+                    <input type="email" placeholder="EMAIL ADDRESS" class="w-full bg-transparent border-b border-white/20 py-3 text-xs outline-none focus:border-accent">
+                    <button class="w-full bg-accent text-primary py-5 text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white smooth-transition">Book Consultation</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-[1400px] mx-auto mt-12 flex flex-col md:flex-row justify-between items-center text-[9px] uppercase tracking-[0.5em] text-white/20 gap-4">
+            <span>© 2026 HIM'S DENIM GROUP | NEW TANG HUB</span>
+            <div class="flex gap-8">
+                <a href="#">Privacy</a>
+                <a href="#">Logistics</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SIDE PANEL 产品相册详情 -->
+    <div x-cloak x-show="sidePanelOpen" class="fixed inset-0 z-[60] overflow-hidden">
+        <div @click="sidePanelOpen = false" x-show="sidePanelOpen" x-transition.opacity class="absolute inset-0 bg-primary/80 backdrop-blur-sm"></div>
+        
+        <div x-show="sidePanelOpen" 
+             x-transition:enter="transition ease-out duration-700 transform" 
+             x-transition:enter-start="translate-x-full" 
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in duration-500 transform"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="translate-x-full"
+             class="absolute right-0 top-0 h-full w-full md:w-[600px] bg-surface shadow-2xl overflow-y-auto no-scrollbar">
+            
+            <div class="p-12">
+                <button @click="sidePanelOpen = false" class="text-primary hover:text-accent mb-12 flex items-center gap-4 uppercase tracking-[0.3em] text-xs">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    Close
+                </button>
+
+                <div x-show="selectedProduct" class="space-y-16">
+                    <div class="grid grid-cols-2 gap-4">
+                        <template x-for="(img, index) in selectedProduct?.images" :key="index">
+                            <div class="aspect-[3/4] overflow-hidden bg-slate-100">
+                                <img :src="img" class="w-full h-full object-cover hover:scale-105 smooth-transition">
+                            </div>
+                        </template>
+                        <!-- 占位格 -->
+                        <div class="aspect-[3/4] bg-primary/5 flex items-center justify-center p-8 text-center border border-primary/5">
+                            <span class="text-[9px] uppercase tracking-[0.3em] text-primary/30 leading-loose">More variation photos available on request</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="font-serif text-4xl italic text-primary mb-4" x-text="selectedProduct?.title"></h2>
+                        <div class="flex items-center gap-6 mb-8">
+                            <span class="text-accent font-bold text-sm" x-text="'Factory Quote: ' + selectedProduct?.price"></span>
+                            <div class="h-4 w-[1px] bg-slate-200"></div>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-widest">MOQ 100pcs</span>
+                        </div>
+                        
+                        <div class="space-y-8 text-slate-500 font-light leading-loose text-sm">
+                            <p>This style represents our mastery in high-end denim washes. Available for immediate sampling with custom branding, hardware, and specialized internal finishing.</p>
+                            <div class="bg-white p-6 border border-slate-100">
+                                <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold text-primary mb-4">Factory Specs</h4>
+                                <ul class="text-[11px] space-y-2 uppercase tracking-widest">
+                                    <li>· Weight: 12oz - 14.5oz</li>
+                                    <li>· Fabric: Premium Ring-Spun Cotton</li>
+                                    <li>· Lead Time: 35-45 Days Bulk</li>
+                                    <li>· Certs: BSCI / REACH Compliant</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pt-12">
+                            <a href="https://wa.me/8613503067557" class="block w-full text-center bg-primary text-white py-6 uppercase tracking-[0.4em] text-xs font-bold hover:bg-accent smooth-transition shadow-2xl">
+                                Inquire via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP 悬浮按钮 -->
+    <a href="https://wa.me/8613503067557" 
+       class="fixed bottom-10 right-10 z-[55] w-16 h-16 bg-[#25D366] text-white flex items-center justify-center rounded-full shadow-2xl hover:scale-110 smooth-transition">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <script>
+        // 简单的入场动画观察者
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section').forEach(section => {
+                if (section.id !== 'hero') {
+                    section.classList.add('smooth-transition', 'opacity-0', 'translate-y-10', 'duration-1000');
+                    observer.observe(section);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
